@@ -11,8 +11,8 @@
       <hr class="w-50 m-auto">
 
       <!-- 이미지 -->
-      <div class="my-5">
-        <img class="img-fluid" src="/photo/first.jpg" />
+      <div ref="movingPhoto" id="frame" class="my-5" style="overflow: hidden">
+        <img :src="photo.first.png" :onerror="`this.src='${photo.first.jpg}'`" style="width:120%; height:120%; margin:-50px -30px" data-depth="0.4"/>
       </div>
 
       <div class="mb-5">
@@ -45,7 +45,7 @@
 
           <!-- 이미지2 -->
           <div class="px-2">
-            <img class="img-fluid fade-up" data-duration="1" src="/photo/second.jpg" />
+            <img class="img-fluid fade-up" data-duration="1" :src="photo.second.png" :onerror="`this.src='${photo.second.jpg}'`" />
           </div>
 
           <div class="fs-4 py-4">
@@ -278,7 +278,7 @@
 
       <div class="row fw-bold fs-4">
         <div class="col-6 px-3 flip-left" data-duration="2">
-          <img class="img-fluid rounded-circle" src="/photo/groom.jpg" />
+          <img class="img-fluid rounded-circle" :src="photo.groom.png" :onerror="`this.src='${photo.groom.jpg}'`" />
           <div class="mt-3">
             <i class="fa fa-heart fs-6 text-yellow"></i><span class="text-yellow"> 신랑 </span>{{ info.groom?.nameSpace }}
           </div>
@@ -303,7 +303,7 @@
         </div>
 
         <div class="col-6 px-3 flip-left" data-duration="2">
-          <img class="img-fluid rounded-circle" src="/photo/bride.jpg" />
+          <img class="img-fluid rounded-circle" :src="photo.bride.png" :onerror="`this.src='${photo.bride.jpg}'`" />
           <div class="mt-3">
             <i class="fa fa-heart fs-6 text-yellow"></i><span class="text-yellow"> 신부 </span>{{ info.bride?.nameSpace }}
           </div>
@@ -570,6 +570,14 @@ const today = ref(new Date())
 const weddingMap = ref(null)
 const clipboard = ref(null)
 
+const movingPhoto = ref(null)
+const photo = reactive({
+  first: {png:'/photo/first.png', jpg:'/photo/first.jpg'},
+  second: {png:'/photo/second.png', jpg:'/photo/second.jpg'},
+  groom: {png:'/photo/groom.png', jpg:'/photo/groom.jpg'},
+  bride: {png:'/photo/bride.png', jpg:'/photo/bride.jpg'},
+})
+
 // firebase setting
 const app = initializeApp({
   apiKey: "AIzaSyDEdZwh7N321b6lWT1R16Exp9S3KK7Hz1M",
@@ -700,7 +708,7 @@ const deleteMessage = async (num) => {
 }
 // DB end ------------------------------------------------------------------
 
-// 사진 start ------------------------------------------------------------------
+// 사진앨범 start ------------------------------------------------------------------
 const photoList = ref([])
 const maxNumber = 99
 const formats = import.meta.env.DEV ? ['jpg'] : ['png', 'jpg', 'jpeg']
@@ -748,7 +756,7 @@ const autoPlayToggle = () => {
   autoPlay.value = !autoPlay.value
   thumbnailsConfig.autoplay = autoPlay.value ? 4000 : 0
 }
-// 사진 end ------------------------------------------------------------------
+// 사진앨범 end ------------------------------------------------------------------
 
 
 let scrollObserver = null
@@ -765,6 +773,7 @@ onMounted(async()=>{
   await checkPhotos()
   // 스크롤이펙트
   enableScrollEffect(scrollObserver)
+  const movedPhoto = new Parallax(movingPhoto.value)
 
   // 카카오맵 start ------------------------------------------------------------------
   const mapOptions = {
@@ -911,6 +920,13 @@ textarea {resize:none !important; height: 100px;}
 .my-border {
   border-right: 1px rgb(123, 123, 117) solid;
   border-left: 1px rgb(123, 123, 117) solid;
+}
+
+#frame {
+  border-image-source: url('/image/photoFrame.png');
+  border-image-slice: 70 55;
+  border-width: 3rem 2.5rem;
+  border-style: solid;
 }
 
 .calendar {width: 14.44%;}
