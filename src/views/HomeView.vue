@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div>
     <div class="text-center">
 
       <div class="p-2">W e d d i n g D a y</div>
@@ -12,12 +12,12 @@
 
       <!-- 이미지 -->
       <div class="my-5">
-        <img class="img-fluid fade-up" data-duration="1" src="https://placehold.co/800x1200" />
+        <img class="img-fluid" src="/photo/first.jpg" />
       </div>
 
       <div class="mb-5">
         <span class="fs-5">{{ info.groom?.name }}</span>
-        <i class="fa fa-heart mx-2 text-yellow" aria-hidden="true"></i>
+        <i class="fa fa-heart mx-2 text-yellow"></i>
         <span class="fs-5">{{ info.bride?.name }}</span>
       </div>
 
@@ -45,7 +45,7 @@
 
           <!-- 이미지2 -->
           <div class="px-2">
-            <img class="img-fluid fade-up" data-duration="1" src="https://placehold.co/800x1200" />
+            <img class="img-fluid fade-up" data-duration="1" src="/photo/second.jpg" />
           </div>
 
           <div class="fs-4 py-4">
@@ -68,41 +68,43 @@
 
       <!-- 앨범 시작 -->
       <div class="mt-5 py-4">
-        <i class="fa fa-camera-retro fs-4 mx-1" aria-hidden="true"></i>
+        <i class="fa fa-camera-retro fs-4 mx-1"></i>
         <span class="fs-2 mx-1 text-yellow fw-bold">Wedding Photos</span>
-        <i class="fa fa-leaf text-yellow" aria-hidden="true"></i>
+        <i class="fa fa-leaf text-yellow"></i>
       </div>
 
       <div class="row">
-        <!-- 가로 이미지 4개, 세로 이미지 4개 -->
+        <!-- 가로 4개, 세로 4개 (세세가가/가가세세) -->
         <div class="col-6 px-1 flip-left">
-          <img class="img-fluid py-1" src="https://placehold.co/800x1200" />
-          <img class="img-fluid py-1" src="https://placehold.co/800x1200" />
-          <img class="img-fluid py-1" src="https://placehold.co/1200x800" />
-          <img class="img-fluid py-1" src="https://placehold.co/1200x800" />
+          <img
+            v-for="(li, i) in photoList.slice(0, 4)" :src="li"
+            class="img-fluid py-1" @click="slideTo(i)"
+            data-bs-toggle="modal" data-bs-target="#photoModal" role="button"
+          />
         </div>
         <div class="col-6 px-1 flip-left">
-          <img class="img-fluid py-1" src="https://placehold.co/1200x800" />
-          <img class="img-fluid py-1" src="https://placehold.co/1200x800" />
-          <img class="img-fluid py-1" src="https://placehold.co/800x1200" />
-          <img class="img-fluid py-1" src="https://placehold.co/800x1200" />
+          <img v-for="(li, i) in photoList.slice(4, 8)" :src="li"
+            class="img-fluid py-1" @click="slideTo(i+4)"
+            data-bs-toggle="modal" data-bs-target="#photoModal" role="button"
+          />
         </div>
       </div>
 
       <div class="my-5 pb-5">
         <span class="btn rounded-pill bg-yellow fw-bold text-light px-3">
-          <i class="fa fa-camera me-2" aria-hidden="true"></i>
-          <span class="fs-5">웨딩사진 보러가기</span>
+          <i class="fa fa-camera me-2"></i>
+          <span class="fs-5" data-bs-toggle="modal" data-bs-target="#photoModal">
+            웨딩사진 보러가기
+          </span>
         </span>
       </div>
-      <!-- https://vue3-carousel.ismail9k.com/getting-started.html -->
       <!-- 앨범 끝 -->
 
       <!-- 위치 시작 -->
       <div class="mt-5 pt-5">
-        <i class="fa fa-map-marker fs-4 mx-1" aria-hidden="true"></i>
+        <i class="fa fa-map-marker fs-4 mx-1"></i>
         <span class="fs-1 mx-1 text-yellow fw-bold">Location</span>
-        <i class="fa fa-bus text-yellow mx-1" aria-hidden="true"></i>
+        <i class="fa fa-bus text-yellow mx-1"></i>
       </div>
 
       <div class="mt-3 pb-4 font-classic fade-up" data-duration="1">
@@ -269,59 +271,59 @@
 
       <!-- 연락처 시작 -->
       <div class="mt-5 py-5">
-        <i class="fa fa-address-book fs-4 mx-1" aria-hidden="true"></i>
+        <i class="fa fa-address-book fs-4 mx-1"></i>
         <span class="fs-1 mx-1 text-yellow fw-bold">Contact</span>
-        <i class="fa fa-paper-plane text-yellow" aria-hidden="true"></i>
+        <i class="fa fa-paper-plane text-yellow"></i>
       </div>
 
       <div class="row fw-bold fs-4">
         <div class="col-6 px-3 flip-left" data-duration="2">
-          <img class="img-fluid rounded-circle" src="https://placehold.co/800x800" />
+          <img class="img-fluid rounded-circle" src="/photo/groom.jpg" />
           <div class="mt-3">
-            <i class="fa fa-heart fs-6 text-yellow" aria-hidden="true"></i><span class="text-yellow"> 신랑 </span>{{ info.groom?.nameSpace }}
+            <i class="fa fa-heart fs-6 text-yellow"></i><span class="text-yellow"> 신랑 </span>{{ info.groom?.nameSpace }}
           </div>
           <hr>
           <div class="fs-1 text-yellow">
-            <a :href="'tel:' + info.groom?.phone"><i class="fa fa-phone me-4" aria-hidden="true"></i></a>
-            <a :href="'sms:' + info.groom?.phone"><i class="fa fa-envelope ms-5" aria-hidden="true"></i></a>
+            <a :href="'tel:' + info.groom?.phone"><i class="fa fa-phone me-4"></i></a>
+            <a :href="'sms:' + info.groom?.phone"><i class="fa fa-envelope ms-5"></i></a>
           </div>
           <hr>
           <div class="fs-6 mb-4">신랑측 혼주 연락하기</div>
           <div>{{ info.groomDad?.nameSpace }} <span class="fs-6">아버님</span></div>
           <div class="fs-1 text-secondary">
-            <a :href="'tel:' + info.groomDad?.phone"><i class="fa fa-phone me-4" aria-hidden="true"></i></a>
-            <a :href="'sms:' + info.groomDad?.phone"><i class="fa fa-envelope ms-5" aria-hidden="true"></i></a>
+            <a :href="'tel:' + info.groomDad?.phone"><i class="fa fa-phone me-4"></i></a>
+            <a :href="'sms:' + info.groomDad?.phone"><i class="fa fa-envelope ms-5"></i></a>
           </div>
           <hr class="w-75 m-auto my-2">
           <div>{{ info.groomMom?.nameSpace }} <span class="fs-6">어머님</span></div>
           <div class="fs-1 text-secondary">
-            <a :href="'tel:' + info.groomMom?.phone"><i class="fa fa-phone me-4" aria-hidden="true"></i></a>
-            <a :href="'sms:' + info.groomMom?.phone"><i class="fa fa-envelope ms-5" aria-hidden="true"></i></a>
+            <a :href="'tel:' + info.groomMom?.phone"><i class="fa fa-phone me-4"></i></a>
+            <a :href="'sms:' + info.groomMom?.phone"><i class="fa fa-envelope ms-5"></i></a>
           </div>
         </div>
 
         <div class="col-6 px-3 flip-left" data-duration="2">
-          <img class="img-fluid rounded-circle" src="https://placehold.co/800x800" />
+          <img class="img-fluid rounded-circle" src="/photo/bride.jpg" />
           <div class="mt-3">
-            <i class="fa fa-heart fs-6 text-yellow" aria-hidden="true"></i><span class="text-yellow"> 신부 </span>{{ info.bride?.nameSpace }}
+            <i class="fa fa-heart fs-6 text-yellow"></i><span class="text-yellow"> 신부 </span>{{ info.bride?.nameSpace }}
           </div>
           <hr>
           <div class="fs-1 text-yellow">
-            <a :href="'tel:' + info.bride?.phone"><i class="fa fa-phone me-4" aria-hidden="true"></i></a>
-            <a :href="'sms:' + info.bride?.phone"><i class="fa fa-envelope ms-5" aria-hidden="true"></i></a>
+            <a :href="'tel:' + info.bride?.phone"><i class="fa fa-phone me-4"></i></a>
+            <a :href="'sms:' + info.bride?.phone"><i class="fa fa-envelope ms-5"></i></a>
           </div>
           <hr>
           <div class="fs-6 mb-4">신부측 혼주 연락하기</div>
           <div>{{ info.brideDad?.nameSpace }} <span class="fs-6">아버님</span></div>
           <div class="fs-1 text-secondary">
-            <a :href="'tel:' + info.brideDad?.phone"><i class="fa fa-phone me-4" aria-hidden="true"></i></a>
-            <a :href="'sms:' + info.brideDad?.phone"><i class="fa fa-envelope ms-5" aria-hidden="true"></i></a>
+            <a :href="'tel:' + info.brideDad?.phone"><i class="fa fa-phone me-4"></i></a>
+            <a :href="'sms:' + info.brideDad?.phone"><i class="fa fa-envelope ms-5"></i></a>
           </div>
           <hr class="w-75 m-auto my-2">
           <div>{{ info.brideMom?.nameSpace }} <span class="fs-6">어머님</span></div>
           <div class="fs-1 text-secondary">
-            <a :href="'tel:' + info.brideMom?.phone"><i class="fa fa-phone me-4" aria-hidden="true"></i></a>
-            <a :href="'sms:' + info.brideMom?.phone"><i class="fa fa-envelope ms-5" aria-hidden="true"></i></a>
+            <a :href="'tel:' + info.brideMom?.phone"><i class="fa fa-phone me-4"></i></a>
+            <a :href="'sms:' + info.brideMom?.phone"><i class="fa fa-envelope ms-5"></i></a>
           </div>
         </div>
 
@@ -377,9 +379,9 @@
       <!-- 공유 시작 -->
       <div class="my-5">
         <div class="mt-5 pt-5">
-          <i class="fa fa-share-alt fs-4 mx-1" aria-hidden="true"></i>
+          <i class="fa fa-share-alt fs-4 mx-1"></i>
           <span class="fs-1 mx-1 text-yellow fw-bold">Share</span>
-          <i class="fa fa-share text-yellow fs-6" aria-hidden="true"></i>
+          <i class="fa fa-share text-yellow fs-6"></i>
         </div>
         <hr>
         <div>
@@ -403,7 +405,7 @@
                   네이버밴드
                 </td>
                 <td class="w-25 fade-right" data-duration="1" @click="share('facebook')" role="button">
-                  <i class="fa-4x fa fa-facebook-square text-yellow" aria-hidden="true"></i><br>
+                  <i class="fa-4x fa fa-facebook-square text-yellow"></i><br>
                   페이스북
                 </td>
               </tr>
@@ -446,9 +448,9 @@
       <!-- 방명록 시작 -->
       <div class="my-5">
         <div class="mt-5 pt-5">
-          <i class="fa fa-address-book fs-4 mx-1" aria-hidden="true"></i>
+          <i class="fa fa-address-book fs-4 mx-1"></i>
           <span class="fs-2 mx-1 text-yellow fw-bold">Guest Book</span>
-          <i class="fa fa-pencil text-yellow fs-5" aria-hidden="true"></i>
+          <i class="fa fa-pencil text-yellow fs-5"></i>
         </div>
 
         <div class="fade-up" data-duration="1">
@@ -484,7 +486,7 @@
                 <i class="fa fa-times fw-light px-1" data-bs-toggle="collapse" :data-bs-target="'#delMessage_'+i" aria-expanded="false" :aria-controls="'delMessage_'+i" role="button"></i>
               </div>
             </div>
-            <div class="my-2 px-1">
+            <div class="my-2 px-1" style="white-space:pre-wrap;word-break: break-all;">
               {{ li.content }}
             </div>
             <div class="collapse text-start fs-5" :id="'delMessage_'+i">
@@ -502,6 +504,44 @@
       </div>
       <!-- 방명록 끝 -->
 
+      <!-- 사진모달 시작 -->
+      <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel">
+        <div class="modal-dialog modal-fullscreen">
+          <div class="modal-content bg-dark text-light fs-5 fw-bold">
+
+            <div class="modal-header border-dark d-flex justify-content-between">
+              <div class="modal-title" id="photoModalLabel">{{ currentSlide+1 +'/'+ photoList.length }}</div>
+              <div @click="autoPlayToggle" role="button">
+                자동재생
+                <i :class="['fa fa-refresh fa-fw ', {'fa-spin' : autoPlay}]"></i>
+              </div>
+              <i class="fa fa-times fs-2" data-bs-dismiss="modal" aria-label="Close" role="button"></i>
+            </div>
+
+            <div class="modal-body">
+              <img :src="photoList[currentSlide]" onerror="this.src='/photo/icon.png'" style="width:100%;height:100%;object-fit: contain;"/>
+            </div>
+
+            <div class="modal-footer border-dark">
+              <Carousel id="thumbnails" v-bind="thumbnailsConfig" v-model="currentSlide">
+                <Slide v-for="image in photoList" :key="image.id">
+                  <template #default="{ currentIndex, isActive }">
+                    <div :class="['thumbnail', { 'is-active': isActive }]" @click="slideTo(currentIndex)">
+                      <img :src="image" onerror="this.src='/photo/icon.png'" class="thumbnail-image img-fluid" />
+                    </div>
+                  </template>
+                </Slide>
+                <template #addons>
+                  <Navigation />
+                </template>
+              </Carousel>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- 사진모달 끝 -->
+
       <div class="my-5 py-5"></div>
       <input class="d-none" ref="clipboard">
     </div>
@@ -513,6 +553,8 @@ import { onMounted, onUnmounted, computed, ref, reactive } from "vue"
 import { initializeApp } from "firebase/app"
 import { getFirestore, collection, doc, addDoc, deleteDoc, getDocs, query, orderBy } from "firebase/firestore"
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
+import 'vue3-carousel/carousel.css'
+import { Carousel, Slide, Navigation } from 'vue3-carousel'
 import bcrypt from "bcryptjs"
 
 const location = reactive({
@@ -658,6 +700,57 @@ const deleteMessage = async (num) => {
 }
 // DB end ------------------------------------------------------------------
 
+// 사진 start ------------------------------------------------------------------
+const photoList = ref([])
+const maxNumber = 99
+const formats = import.meta.env.DEV ? ['jpg'] : ['png', 'jpg', 'jpeg']
+const checkPhotos = async () => {
+  photoList.value = []
+
+  let i = 1
+  while(i <= maxNumber) {
+    let found = false
+
+    for (const ext of formats) {
+      const filePath = '/photo/' + (i+'').padStart(2, '0') + '.' + ext
+
+      try {
+        const response = await fetch(filePath, { method: 'HEAD' })
+
+        if (response.ok) {
+          photoList.value.push(filePath)
+          found = true
+          break
+        }
+      } catch (error) {
+        console.error(`${filePath} 확인 중 오류 발생:`, error)
+      }
+    }
+
+    // 연속된 번호가 끊기면 반복 종료
+    if (!found) break
+    i++
+  }
+}
+
+const currentSlide = ref(0)
+const slideTo = (nextSlide) => (currentSlide.value = nextSlide)
+const thumbnailsConfig = reactive({
+  height: 80,
+  itemsToShow: 6,
+  wrapAround: true,
+  touchDrag: true,
+  autoplay: 0,
+  gap: 5,
+})
+const autoPlay = ref(false)
+const autoPlayToggle = () => {
+  autoPlay.value = !autoPlay.value
+  thumbnailsConfig.autoplay = autoPlay.value ? 4000 : 0
+}
+// 사진 end ------------------------------------------------------------------
+
+
 let scrollObserver = null
 
 onUnmounted(()=>{
@@ -669,6 +762,7 @@ onMounted(async()=>{
   await getInfo()
   await getBanks()
   await getMessage()
+  await checkPhotos()
   // 스크롤이펙트
   enableScrollEffect(scrollObserver)
 
@@ -773,8 +867,7 @@ const kakaoTalkShare = () => {
     content: {
       title: `${info.value.groom?.name} ♥ ${info.value.bride?.name}`,
       description: shareMesssage(),
-      // TODO: 사진 변경필요
-      imageUrl: 'http://k.kakaocdn.net/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png',
+      imageUrl: shareUrl+'/photo/icon.png',
       link: {mobileWebUrl: shareUrl, webUrl: shareUrl},
     },
     buttons: [{ title: '청첩장 바로가기', link: {mobileWebUrl: shareUrl, webUrl: shareUrl} }],
@@ -850,4 +943,22 @@ textarea {resize:none !important; height: 100px;}
     box-shadow: 0 0 0 0 rgba(229, 189, 110,0)
   }
 }
+
+/* 캐러샐관련 */
+.carousel {
+  --vc-nav-background: rgba(255, 255, 255, 0.7);
+  --vc-nav-border-radius: 100%;
+}
+#thumbnails {margin-top: 10px;}
+#thumbnails .carousel__slide {
+  border-radius: 8px;
+  background-color: black;
+  overflow: hidden;
+}
+.thumbnail {
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s ease-in-out;
+}
+.thumbnail.is-active, .thumbnail:hover {opacity: 1}
 </style>
