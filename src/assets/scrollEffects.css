@@ -1,0 +1,32 @@
+.fade-up{transform:translateY(100px)}
+.fade-down{transform:translateY(-100px)}
+.fade-left{transform:translateX(100px)}
+.fade-right{transform:translateX(-100px)}
+.fade-up-left{transform:translate(75px,75px)}
+.fade-up-right{transform:translate(-75px,75px)}
+.fade-down-left{transform:translate(75px,-75px)}
+.fade-down-right{transform:translate(-75px,-75px)}
+.fade-up,.fade-down,.fade-left,.fade-right,.fade-up-left,.fade-up-right,.fade-down-left,.fade-down-right{opacity:0;transition:opacity var(--animation-duration, 1.5s) ease-out,transform var(--animation-duration, 1.5s) ease-out}
+.fade-up.showEffects,.fade-down.showEffects,.fade-left.showEffects,.fade-right.showEffects,.fade-up-left.showEffects,.fade-up-right.showEffects,.fade-down-left.showEffects,.fade-down-right.showEffects{opacity:1;transform:translate(0,0)}
+
+.flip-up{transform:rotateX(100deg)}
+.flip-down{transform:rotateX(-100deg)}
+.flip-left{transform:rotateY(100deg)}
+.flip-right{transform:rotateY(-100deg)}
+.flip-up,.flip-down,.flip-left,.flip-right{backface-visibility:hidden;transition:transform var(--animation-duration, 1.5s) ease-out}
+.flip-up.showEffects,.flip-down.showEffects,.flip-left.showEffects,.flip-right.showEffects{transform:rotateX(0)}
+
+.zoom-in{transform:scale(.6)}
+.zoom-in-up{transform:scale(.6) translateY(100px)}
+.zoom-in-down{transform:scale(.6) translateY(-100px)}
+.zoom-in-left{transform:scale(.6) translateX(100px)}
+.zoom-in-right{transform:scale(.6) translateX(-100px)}
+.zoom-out{transform:scale(1.2)}
+.zoom-out-up{transform:scale(1.2) translateY(100px)}
+.zoom-out-down{transform:scale(1.2) translateY(-100px)}
+.zoom-out-left{transform:scale(1.2) translateX(100px)}
+.zoom-out-right{transform:scale(1.2) translateX(-100px)}
+.zoom-in,.zoom-in-down,.zoom-in-left,.zoom-in-right,.zoom-in-up,.zoom-out,.zoom-out-down,.zoom-out-left,.zoom-out-right,.zoom-out-up{opacity:0;transition:opacity var(--animation-duration, 1.5s) ease-out,transform var(--animation-duration, 1.5s) ease-out}
+.zoom-in.showEffects,.zoom-out.showEffects{opacity:1;transform:scale(1)}
+.zoom-in-down.showEffects,.zoom-in-up.showEffects,.zoom-out-down.showEffects,.zoom-out-up.showEffects{opacity:1;transform:scale(1) translateY(0)}
+.zoom-in-left.showEffects,.zoom-in-right.showEffects,.zoom-out-left.showEffects,.zoom-out-right.showEffects{opacity:1;transform:scale(1) translateX(0)}
