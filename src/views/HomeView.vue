@@ -78,12 +78,15 @@
         <div class="col-6 px-1 flip-left">
           <img
             v-for="(li, i) in photoList.slice(0, 4)" :src="li"
+            onerror="this.src=this.src.replace('.png','.jpg')"
             class="img-fluid py-1" @click="slideTo(i)"
             data-bs-toggle="modal" data-bs-target="#photoModal" role="button"
           />
         </div>
         <div class="col-6 px-1 flip-left">
-          <img v-for="(li, i) in photoList.slice(4, 8)" :src="li"
+          <img
+            v-for="(li, i) in photoList.slice(4, 8)" :src="li"
+            onerror="this.src=this.src.replace('.png','.jpg')"
             class="img-fluid py-1" @click="slideTo(i+4)"
             data-bs-toggle="modal" data-bs-target="#photoModal" role="button"
           />
@@ -93,7 +96,7 @@
       <div class="my-5 pb-5">
         <span class="btn rounded-pill bg-yellow fw-bold text-light px-3">
           <i class="fa fa-camera me-2"></i>
-          <span class="fs-5" data-bs-toggle="modal" data-bs-target="#photoModal">
+          <span class="fs-5" @click="slideTo(0)" data-bs-toggle="modal" data-bs-target="#photoModal">
             웨딩사진 보러가기
           </span>
         </span>
@@ -167,7 +170,7 @@
       </div>
 
       <div class="text-start px-3 pb-5">
-        <table class="fs-6 fw-bold">
+        <table class="fs-5 fw-bold">
           <tbody class="fade-right" data-duration="1">
             <!-- 지하철 -->
             <tr>
@@ -183,9 +186,13 @@
             </tr>
             <tr>
               <td colspan="2" class="ps-1">
-                <span class="badge rounded-pill text-bg-info text-light fw-bold fs-6">
+                <span class="badge rounded-pill text-bg-info text-light fw-bold fs-5">
                   4 호선 회현역
                 </span>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="ps-1">
                 <span class="ps-1">
                   1번 출구, 명동 방향으로 200m 직진
                 </span>
@@ -205,7 +212,7 @@
               </td>
             </tr>
             <tr>
-              <td class="px-1 text-nowrap">
+              <td class="px-1 text-nowrap align-top">
                 <span class="fa-stack fa-lg fs-6">
                   <i class="fa fa-circle fa-stack-2x text-primary"></i>
                   <i class="fa-stack-1x fa-inverse">B</i>
@@ -219,7 +226,7 @@
               </td>
             </tr>
             <tr>
-              <td class="px-1 text-nowrap">
+              <td class="px-1 text-nowrap align-top align-top">
                 <span class="fa-stack fa-lg fs-6">
                   <i class="fa fa-circle fa-stack-2x text-success"></i>
                   <i class="fa-stack-1x fa-inverse">G</i>
@@ -233,7 +240,7 @@
               </td>
             </tr>
             <tr>
-              <td class="px-1 text-nowrap">
+              <td class="px-1 text-nowrap align-top">
                 <span class="fa-stack fa-lg fs-6">
                   <i class="fa fa-circle fa-stack-2x text-warning"></i>
                   <i class="fa-stack-1x fa-inverse">Y</i>
@@ -345,11 +352,22 @@
             </div>
             <div class="collapse text-start fs-5" id="groomAccount">
               <template v-for="li in banks">
-                <div v-if="li.type === 'groom'" class="py-2">
-                  <div class="p-2">예금주: {{li.name}}</div>
-                  <div class="d-flex justify-content-between align-items-center border rounded-3 border-warning p-3" @click="copyClipboard(li.account)" role="button">
+                <div v-if="li.type === 'groom'" class="mt-3 mb-2 p-3 border rounded-3 border-warning">
+                  <div class="d-flex align-items-center justify-content-between mb-1">
                     <div>{{ li.bank + ' ' + li.account }}</div>
-                    <div class="btn bg-yellow text-light fw-bold">복사하기</div>
+                    <div class="btn bg-yellow text-light fw-bold" @click="copyClipboard(li.account)">
+                      <i class="fa fa-clone"></i>
+                      복사
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <div>{{li.name}}</div>
+                    <div>
+                      <div v-if="li.kakaoQr" class="btn btn-warning fw-bold" @click="openLink(li.kakaoQr)">
+                        <i class="fa fa-comment me-1"></i>
+                        pay
+                      </div>
+                    </div>
                   </div>
                 </div>
               </template>
@@ -361,11 +379,22 @@
             </div>
             <div class="collapse text-start fs-5" id="brideAccount">
               <template v-for="li in banks">
-                <div v-if="li.type === 'bride'" class="py-2">
-                  <div class="p-2">예금주: {{li.name}}</div>
-                  <div class="d-flex justify-content-between align-items-center border rounded-3 border-warning p-3" @click="copyClipboard(li.account)" role="button">
+                <div v-if="li.type === 'bride'" class="mt-3 mb-2 p-3 border rounded-3 border-warning">
+                  <div class="d-flex align-items-center justify-content-between mb-1">
                     <div>{{ li.bank + ' ' + li.account }}</div>
-                    <div class="btn bg-yellow text-light fw-bold">복사하기</div>
+                    <div class="btn bg-yellow text-light fw-bold" @click="copyClipboard(li.account)">
+                      <i class="fa fa-clone"></i>
+                      복사
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <div>{{li.name}}</div>
+                    <div>
+                      <div v-if="li.kakaoQr" class="btn btn-warning fw-bold" @click="openLink(li.kakaoQr)">
+                        <i class="fa fa-comment me-1"></i>
+                        pay
+                      </div>
+                    </div>
                   </div>
                 </div>
               </template>
@@ -519,7 +548,7 @@
             </div>
 
             <div class="modal-body">
-              <img :src="photoList[currentSlide]" onerror="this.src='/photo/icon.png'" style="width:100%;height:100%;object-fit: contain;"/>
+              <img :src="photoList[currentSlide]" onerror="this.src='/photo/icon.png'" style="width:100%;height:100%;object-fit: contain;" loading="lazy"/>
             </div>
 
             <div class="modal-footer border-dark">
@@ -527,7 +556,7 @@
                 <Slide v-for="image in photoList" :key="image.id">
                   <template #default="{ currentIndex, isActive }">
                     <div :class="['thumbnail', { 'is-active': isActive }]" @click="slideTo(currentIndex)">
-                      <img :src="image" onerror="this.src='/photo/icon.png'" class="thumbnail-image img-fluid" />
+                      <img :src="image" onerror="this.src='/photo/icon.png'" class="thumbnail-image img-fluid" loading="lazy" />
                     </div>
                   </template>
                 </Slide>
@@ -549,7 +578,7 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, computed, ref, reactive } from "vue"
+import {onMounted, onUnmounted, computed, ref, reactive, onBeforeMount} from "vue"
 import { initializeApp } from "firebase/app"
 import { getFirestore, collection, doc, addDoc, deleteDoc, getDocs, query, orderBy } from "firebase/firestore"
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
@@ -611,7 +640,7 @@ const getInfo = async () => {
 }
 
 const banks = ref([
-    // {type:'groom/bride', name:'', bank: '', account: ''},
+    // {type:'groom/bride', name:'', bank: '', account: '', kakaoQr: '', },
 ])
 const getBanks = async () => {
   const condition = query(collection(db, "bank"), orderBy("sort", "asc"))
@@ -627,6 +656,7 @@ const getBanks = async () => {
       name: data.name,
       bank: data.bank,
       account: data.account,
+      kakaoQr: data.kakaoQr,
     })
   })
 }
@@ -709,11 +739,20 @@ const deleteMessage = async (num) => {
 // DB end ------------------------------------------------------------------
 
 // 사진앨범 start ------------------------------------------------------------------
-const photoList = ref([])
+const photoList = ref([
+  shareUrl+'/photo/01.png',
+  shareUrl+'/photo/02.png',
+  shareUrl+'/photo/03.png',
+  shareUrl+'/photo/04.png',
+  shareUrl+'/photo/05.png',
+  shareUrl+'/photo/06.png',
+  shareUrl+'/photo/07.png',
+  shareUrl+'/photo/08.png'
+])
 const maxNumber = 99
 const formats = import.meta.env.DEV ? ['jpg'] : ['png', 'jpg', 'jpeg']
 const checkPhotos = async () => {
-  photoList.value = []
+  let tmpPhotoList = []
 
   let i = 1
   while(i <= maxNumber) {
@@ -726,7 +765,7 @@ const checkPhotos = async () => {
         const response = await fetch(filePath, { method: 'HEAD' })
 
         if (response.ok) {
-          photoList.value.push(filePath)
+          tmpPhotoList.push(filePath)
           found = true
           break
         }
@@ -739,25 +778,27 @@ const checkPhotos = async () => {
     if (!found) break
     i++
   }
+
+  photoList.value = tmpPhotoList
+
 }
 
 const currentSlide = ref(0)
-const slideTo = (nextSlide) => (currentSlide.value = nextSlide)
+const slideTo = (slide) => {currentSlide.value = slide}
 const thumbnailsConfig = reactive({
   height: 80,
   itemsToShow: 6,
   wrapAround: true,
   touchDrag: true,
-  autoplay: 0,
+  autoplay: 4000,
   gap: 5,
 })
-const autoPlay = ref(false)
+const autoPlay = ref(true)
 const autoPlayToggle = () => {
   autoPlay.value = !autoPlay.value
   thumbnailsConfig.autoplay = autoPlay.value ? 4000 : 0
 }
 // 사진앨범 end ------------------------------------------------------------------
-
 
 let scrollObserver = null
 
@@ -765,12 +806,14 @@ onUnmounted(()=>{
   if(scrollObserver) scrollObserver.disconnect()
 })
 
-onMounted(async()=>{
+onBeforeMount(async ()=>{
   await signInWithEmailAndPassword(getAuth(), 'you@me.wedding', 'wedding')
   await getInfo()
   await getBanks()
   await getMessage()
-  await checkPhotos()
+})
+
+onMounted(()=>{
   // 스크롤이펙트
   enableScrollEffect(scrollObserver)
   const movedPhoto = new Parallax(movingPhoto.value)
@@ -802,6 +845,8 @@ onMounted(async()=>{
 
   infoWindow.open(map, marker)
   // 카카오맵 end ------------------------------------------------------------------
+
+  checkPhotos()
 })
 
 // 스크롤이펙트
@@ -850,6 +895,11 @@ const copyClipboard = (content) => {
   document.execCommand("copy")
   clipboard.value.classList.add("d-none")
   alert("클립보드에 복사되었습니다.")
+}
+
+// 링크열기
+const openLink = (link, target='_blank') => {
+  window.open(link, target)
 }
 
 // 공유정보
