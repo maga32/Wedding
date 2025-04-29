@@ -31,16 +31,16 @@
           <hr class="w-75 m-auto my-4">
 
           <div class="fs-4 my-5 fade-up" data-duration="1" >
-            믿음으로 함께하고 사랑으로 하나되는 <br>
-            저희 약속의 자리에 <br>
-            소중한 분들을 모시고자 합니다. <br>
+            오랜시간 지켜봐주신 <br>
+            마음을 받아 <br>
+            앞으로 더 오랜시간 동안 <br>
+            서로를 지켜주고자 합니다. <br>
             <br>
-            서로를 아끼고 감사하며<br>
-            아름답게 살아가겠습니다. <br>
-            <br>
-            귀한 걸음으로 저희의 앞날을 <br>
-            함께 축복해 주시면  <br>
-            더 없는 기쁨으로 간직하겠습니다.
+            저희 두 사람이 서로를 위한 <br>
+            든든한 버팀목이 될 수 있도록 <br>
+            응원해주시면 <br>
+            더욱 감사한 마음으로 <br>
+            살아가겠습니다.
           </div>
 
           <!-- 이미지2 -->
@@ -586,6 +586,12 @@ import 'vue3-carousel/carousel.css'
 import { Carousel, Slide, Navigation } from 'vue3-carousel'
 import bcrypt from "bcryptjs"
 
+const MESSAGES = reactive({
+  FILL_CONTENT: ' 항목을 입력해주세요.',
+  FILL_PASSWORD: '비밀번호를 입력해주세요.',
+  INCORRECT_PASSWORD: '비밀번호가 일치하지 않습니다.',
+})
+
 const location = reactive({
   name: '우리은행 본점',
   nameNoSpace: '우리은행본점',
@@ -693,7 +699,7 @@ const getMessage = async () => {
 const addMessage = async () => {
   for(const key in message) {
     if(!message[key].val) {
-      alert(message[key].ko + ' 항목을 입력해주세요.')
+      alert(message[key].ko + MESSAGES.FILL_CONTENT)
       return
     }
   }
@@ -723,13 +729,13 @@ const addMessage = async () => {
 const deleteMessage = async (num) => {
   const target = messageList.value[num]
   if(!target.delPassword) {
-    alert('비밀번호를 입력해주세요.')
+    alert(MESSAGES.FILL_PASSWORD)
     return
   }
 
   const isMatch = await bcrypt.compare(target.delPassword, target.password)
   if(!isMatch) {
-    alert('비밀번호가 일치하지 않습니다.')
+    alert(MESSAGES.INCORRECT_PASSWORD)
     return
   }
 
@@ -752,6 +758,7 @@ const photoList = ref([
 const maxNumber = 99
 const formats = import.meta.env.DEV ? ['jpg'] : ['png', 'jpg', 'jpeg']
 const checkPhotos = async () => {
+  console.log('loading...')
   let tmpPhotoList = []
 
   let i = 1
@@ -780,6 +787,7 @@ const checkPhotos = async () => {
   }
 
   photoList.value = tmpPhotoList
+  console.log('loaded!!!!')
 
 }
 
