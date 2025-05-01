@@ -548,7 +548,7 @@
             </div>
 
             <div class="modal-body">
-              <img :src="photoList[currentSlide]" onerror="this.src='/photo/icon.png'" style="width:100%;height:100%;object-fit: contain;" loading="lazy"/>
+              <img :src="photoList[currentSlide]" onerror="this.src='/photo/icon.jpg'" style="width:100%;height:100%;object-fit: contain;" loading="lazy"/>
             </div>
 
             <div class="modal-footer border-dark">
@@ -556,7 +556,7 @@
                 <Slide v-for="image in photoList" :key="image.id">
                   <template #default="{ currentIndex, isActive }">
                     <div :class="['thumbnail', { 'is-active': isActive }]" @click="slideTo(currentIndex)">
-                      <img :src="image" onerror="this.src='/photo/icon.png'" class="thumbnail-image img-fluid" loading="lazy" />
+                      <img :src="image" onerror="this.src='/photo/icon.jpg'" class="thumbnail-image img-fluid" loading="lazy" />
                     </div>
                   </template>
                 </Slide>
@@ -934,7 +934,7 @@ const kakaoTalkShare = () => {
     content: {
       title: `${info.value.groom?.name} ♥ ${info.value.bride?.name}`,
       description: shareMesssage(),
-      imageUrl: shareUrl+'/photo/icon.png',
+      imageUrl: shareUrl+'/photo/icon.jpg',
       link: {mobileWebUrl: shareUrl, webUrl: shareUrl},
     },
     buttons: [{ title: '청첩장 바로가기', link: {mobileWebUrl: shareUrl, webUrl: shareUrl} }],
