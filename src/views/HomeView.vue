@@ -600,7 +600,7 @@ const location = reactive({
   lat: 37.559432046203156,
   lng: 126.98174982415574,
 })
-const targetDate = ref(new Date('2025-07-12'))
+const targetDate = ref(new Date('2025-07-12 00:00:00'))
 const today = ref(new Date())
 const weddingMap = ref(null)
 const clipboard = ref(null)
