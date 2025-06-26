@@ -769,9 +769,9 @@ const checkPhotos = async () => {
       const filePath = '/photo/' + (i+'').padStart(2, '0') + '.' + ext
 
       try {
-        const response = await fetch(filePath, { method: 'HEAD' })
+        const response = await fetch(filePath, { method: 'HEAD', redirect: 'manual' })
 
-        if (response.ok) {
+        if (response.ok && response.headers.get('content-type').includes('image')) {
           tmpPhotoList.push(filePath)
           found = true
           break
@@ -911,7 +911,7 @@ const openLink = (link, target='_blank') => {
 }
 
 // 공유정보
-const shareUrl = 'https://wedding.sung-a.duckdns.org'
+const shareUrl = 'https://wedding-sh-se.pages.dev'
 const shareMesssage = () => `${info.value.groom?.name}＆${info.value.bride?.name} 결혼을 축하해주세요.`
 
 // 공유
