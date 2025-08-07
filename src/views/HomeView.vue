@@ -581,7 +581,7 @@
 import {onMounted, onUnmounted, computed, ref, reactive, onBeforeMount} from "vue"
 import { initializeApp } from "firebase/app"
 import { getFirestore, collection, doc, addDoc, deleteDoc, getDocs, query, orderBy } from "firebase/firestore"
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import 'vue3-carousel/carousel.css'
 import { Carousel, Slide, Navigation } from 'vue3-carousel'
 import bcrypt from "bcryptjs"
@@ -590,6 +590,8 @@ const MESSAGES = reactive({
   FILL_CONTENT: ' 항목을 입력해주세요.',
   FILL_PASSWORD: '비밀번호를 입력해주세요.',
   INCORRECT_PASSWORD: '비밀번호가 일치하지 않습니다.',
+  COPIED: '클립보드에 복사되었습니다.',
+  FAIL_LOGIN: '인증오류가 발생했습니다.',
 })
 
 const location = reactive({
@@ -718,6 +720,7 @@ const addMessage = async () => {
       hour12: false,
     }).format(new Date())
   })
+  .catch(e=>alert(MESSAGES.FAIL_LOGIN))
 
   message.name.val = ''
   message.password.val = ''
@@ -739,7 +742,8 @@ const deleteMessage = async (num) => {
     return
   }
 
-  await deleteDoc(doc(db, "message", target.id));
+  await deleteDoc(doc(db, "message", target.id))
+    .catch(e=>alert(MESSAGES.FAIL_LOGIN));
   await getMessage()
 }
 // DB end ------------------------------------------------------------------
@@ -815,7 +819,12 @@ onUnmounted(()=>{
 })
 
 onBeforeMount(async ()=>{
-  await signInWithEmailAndPassword(getAuth(), 'you@me.wedding', 'wedding')
+  try {
+    await signInWithEmailAndPassword(getAuth(), import.meta.env.VITE_EMAIL, import.meta.env.VITE_PASSWORD)
+  } catch(e) {
+    await getAuth().signOut()
+    alert(MESSAGES.FAIL_LOGIN)
+  }
   await getInfo()
   await getBanks()
   await getMessage()
@@ -902,7 +911,7 @@ const copyClipboard = (content) => {
   clipboard.value.select()
   document.execCommand("copy")
   clipboard.value.classList.add("d-none")
-  alert("클립보드에 복사되었습니다.")
+  alert(MESSAGES.COPIED)
 }
 
 // 링크열기
